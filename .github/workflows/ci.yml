@@ -1,0 +1,39 @@
+name: Source checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: source-checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: macos-26
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select build toolchain
+        run: |
+          sudo xcode-select -s /Applications/Xcode_26.6.app/Contents/Developer
+          swift --version
+          test "$(uname -m)" = arm64
+      - name: Swift tests (no microphone, model weights, or cloud credentials)
+        run: swift test -j 2
+      - name: Install secret scanner
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: '1'
+          HOMEBREW_NO_INSTALL_CLEANUP: '1'
+        run: brew install gitleaks
+      - name: Publication boundary tests
+        run: python3 -m unittest discover -s scripts/validation -p 'test_*.py'
+      - name: Shell syntax
+        run: zsh -n scripts/bootstrap.sh scripts/build-app.sh scripts/build-metal.sh scripts/run-app.sh
+      - name: Audit public snapshot and Git history
+        run: |
+          python3 scripts/audit_public.py
+          gitleaks git --redact --no-banner --log-opts='--all'

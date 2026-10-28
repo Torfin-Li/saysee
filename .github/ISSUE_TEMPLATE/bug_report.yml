@@ -1,0 +1,25 @@
+name: Bug report
+description: 报告问题，请只使用合成或脱敏数据。
+body:
+  - type: markdown
+    attributes:
+      value: 不要上传 API Key、service account、私有录音或未遮挡的截图。安全漏洞请使用私密报告渠道。
+  - type: input
+    id: environment
+    attributes:
+      label: 环境
+      description: macOS 版本、Apple Silicon 型号、Saysee 版本、所选服务和模型。
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤、预期和实际结果
+      description: 尽量提供最小复现，输入内容请替换为合成文本。
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: 可选诊断
+      description: 仅提供相关会话的脱敏阶段／耗时；检查凭证、路径、项目标识与其他应用内容。

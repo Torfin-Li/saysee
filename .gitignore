@@ -1,0 +1,47 @@
+# Generated dependencies, model weights and release artifacts
+.build/
+.swiftpm/
+.tools/
+dist/
+*.dmg
+*.app/
+*.dSYM/
+*.safetensors
+*.onnx
+*.gguf
+*.mlmodelc/
+
+# Local research, prototypes and internal development history
+experiments/
+design/
+docs/internal/
+
+# Credentials and local settings (examples must contain placeholders only)
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+*service-account*.json
+*service_account*.json
+*credentials*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+*.keychain*
+
+# Runtime data and editor files
+*.log
+*.jsonl
+*.wav
+*.aiff
+*.m4a
+*.mp3
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.idea/
+.vscode/
